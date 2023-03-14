@@ -13,9 +13,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField]
     private float countdow;
     private float lasttime;
-    // Start is called before the first frame update
 
-    // Update is called once per frame
     void Update()
     {
         float time = Time.time - lasttime;
@@ -24,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
             OnFire();
             lasttime = Time.time;
         }
+
         
     }
     private void FireBullet()
