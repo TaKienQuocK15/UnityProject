@@ -7,15 +7,41 @@ public class HealthPlayer : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
     //private HealthPlayer healthPlayer;
-
+    public bool shield;
     public HealthBar healthBar;
    
     void Start()
     {
+        shield = false;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
+    private void OnEnable()
+    {
+        EventManager.GetShieldEvent.AddListener(GetShield);
+        EventManager.GetItemHealthEvent.AddListener(addHealth);
+    }
+    void GetShield()
+    {
+        shield=true;
+        Debug.Log("shield");
+    }
+    void addHealth()
+    {
 
+        currentHealth += 10;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        healthBar.SetHealth(currentHealth);
+
+    }
+    private void OnDisable()
+    {
+        EventManager.GetShieldEvent.RemoveListener(GetShield);
+        EventManager.GetItemHealthEvent.RemoveListener(addHealth);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -27,27 +53,24 @@ public class HealthPlayer : MonoBehaviour
     }
     void TakeDame(int dame)
     {
+        if (shield == true)
+        {    
+            shield=false;
+            return;
+        }
         currentHealth -= dame;
         healthBar.SetHealth(currentHealth);
         
+        
     }
-   public void addHealth(int health)
-    {
-        currentHealth += health;
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }      
-        healthBar.SetHealth(currentHealth);
-
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        GameObject whatHit = collision.gameObject;
-        if (whatHit.CompareTag("health"))
-        {
-            addHealth(10);
-            Destroy(whatHit);
-        }
-    }
+  
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    GameObject whatHit = collision.gameObject;
+    //    if (whatHit.CompareTag("health"))
+    //    {
+    //        addHealth(10);
+    //        Destroy(whatHit);
+    //    }
+    //}
 }

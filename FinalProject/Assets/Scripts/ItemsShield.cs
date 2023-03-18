@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemHealth : MonoBehaviour
+public class ItemsShield : MonoBehaviour
 {
-   
-
+    // Start is called before the first frame update
     void Start()
     {
         
@@ -15,14 +14,15 @@ public class ItemHealth : MonoBehaviour
         GameObject whatHit = collision.gameObject;
         if (whatHit.CompareTag("Player"))
         {
-            Debug.Log("health");
-            EventManager.GetItemHealthEvent.Invoke();
+            EventManager.GetShieldEvent.Invoke();
             Destroy(gameObject);
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
         
     }
+
 }
