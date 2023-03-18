@@ -15,7 +15,7 @@ public class ItemHealth : MonoBehaviour
         GameObject whatHit = collision.gameObject;
         if (whatHit.CompareTag("Player"))
         {
-            Debug.Log("health");
+            //Debug.Log("health");
             EventManager.GetItemHealthEvent.Invoke();
             Destroy(gameObject);
         }
