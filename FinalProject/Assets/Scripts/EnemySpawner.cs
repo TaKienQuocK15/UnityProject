@@ -11,28 +11,33 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject bossPrefab;
     [SerializeField]
-    private float zombieCooldown = 3.5f;
+    private float zombieCooldown = 2f;
     [SerializeField]
     private float doggoCooldown = 5.5f;
     [SerializeField]
     private float bossCooldown = 6.5f;
+    public float spawnRange = 5f;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawnEnemy(zombieCooldown, zombiePrefab));
-        StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
-        StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));
-    }
 
- /*   // Update is called once per frame
-    void Update()
-    {
-        
-    }*/
-    private IEnumerator spawnEnemy(float interval, GameObject enemy)
+        /*StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
+        StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));*/
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        StartCoroutine(spawnEnemy(zombieCooldown, playerTransform));
+
+
+
+    }
+    private IEnumerator spawnEnemy(float interval, Transform playerTransform)
     {
         yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f,6f), 0), Quaternion.identity);
-        StartCoroutine(spawnEnemy(interval, newEnemy));
+        Vector3 randomOffset = transform.position + Random.insideUnitSphere * spawnRange;
+        Vector3 spawnPos = playerTransform.position + randomOffset;
+        /*GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6f), 0), Quaternion.identity);*/
+        GameObject newEnemy = EnemyPool.instance.getEnemy();
+        newEnemy.transform.position = spawnPos;
+        newEnemy.SetActive(true);
+        StartCoroutine(spawnEnemy(interval, playerTransform));
     }
 }

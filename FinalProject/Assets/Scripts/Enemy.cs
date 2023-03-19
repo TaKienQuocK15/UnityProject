@@ -31,7 +31,16 @@ public class Enemy : MonoBehaviour
         /*TouchPlayer();*/
         
     }
-    
+    private void OnEnable()
+    {
+        EventManager.GetShieldEvent.AddListener(enemyDie);
+
+
+    }
+    private void OnDisable()
+    {
+        EventManager.GetShieldEvent.RemoveListener(enemyDie);
+    }
     private void followPlayer()
     {
         if(player != null)
@@ -40,18 +49,12 @@ public class Enemy : MonoBehaviour
             Vector2 direction = player.transform.position - transform.position;*/
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Data.speed * Time.deltaTime);
         }
-        
-        
     }
     private void setEnemyValues()
     {
         hp = Data.hp;
         damage = Data.damage;
         speed = Data.speed;
-    }
-    private void damagePlayer()
-    {
-
     }
     private void damaged(int amount)
     {
@@ -64,7 +67,9 @@ public class Enemy : MonoBehaviour
     }
     private void enemyDie()
     {
-        Destroy(gameObject);
+        GetComponent<LootBag>().dropLoot(transform.position);
+        EnemyPool.instance.returnEnemyToPool(gameObject);
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -74,11 +79,17 @@ public class Enemy : MonoBehaviour
             if (playerHealth != null)
             {
                 if(!damaging)
-                StartCoroutine(TakingDamage());
+                StartCoroutine(dealingDamage());
             }
         }
-        /*gameObject.GetComponent<HealthPlayer>().PlayerDamaged(damage)*/
-        
+
+    }
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Bullet"))
+        {
+            damaged(50);
+        }
     }
     void OnCollisionExit2D(Collision2D collision)
     {
@@ -88,7 +99,7 @@ public class Enemy : MonoBehaviour
             damaging = false;
         }
     }
-    IEnumerator TakingDamage()
+    IEnumerator dealingDamage()
     {
         damaging = true;
 
@@ -104,7 +115,6 @@ public class Enemy : MonoBehaviour
             if (!damaging)
                 break;
         }
-
         damaging = false;
     }
 }

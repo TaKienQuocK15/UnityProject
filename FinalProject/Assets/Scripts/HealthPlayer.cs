@@ -56,6 +56,7 @@ public class HealthPlayer : MonoBehaviour
 
 
     }
+    
     public void PlayerDamaged(int dame)
     {
         if (shield == true)
