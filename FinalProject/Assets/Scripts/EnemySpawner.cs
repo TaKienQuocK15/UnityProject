@@ -26,7 +26,6 @@ public class EnemySpawner : MonoBehaviour
     {
         float interval = Random.Range(3f, 5f);
         yield return new WaitForSeconds(interval);
-
         float rand = Random.Range(1, 101);
         GameObject enemy;
         if (rand <= 50)
