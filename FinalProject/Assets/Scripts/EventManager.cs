@@ -7,5 +7,5 @@ public  class EventManager :MonoBehaviour
 {
     public static UnityEvent GetShieldEvent =new UnityEvent();
     public static UnityEvent GetItemHealthEvent =new UnityEvent();
-
+    public static UnityEvent PortalDestroyEvent = new UnityEvent();
 }

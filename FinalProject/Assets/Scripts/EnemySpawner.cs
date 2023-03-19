@@ -10,29 +10,42 @@ public class EnemySpawner : MonoBehaviour
     private GameObject doggoPrefab;
     [SerializeField]
     private GameObject bossPrefab;
-    [SerializeField]
-    private float zombieCooldown = 3.5f;
-    [SerializeField]
-    private float doggoCooldown = 5.5f;
-    [SerializeField]
-    private float bossCooldown = 6.5f;
+
+    private float existTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawnEnemy(zombieCooldown, zombiePrefab));
-        StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
-        StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));
+        existTime = Random.Range(15f, 30f);
+        Invoke("DestroyPortal", existTime);
+
+        StartCoroutine(spawnEnemy());
     }
 
- /*   // Update is called once per frame
-    void Update()
+    private IEnumerator spawnEnemy()
     {
-        
-    }*/
-    private IEnumerator spawnEnemy(float interval, GameObject enemy)
-    {
+        float interval = Random.Range(3f, 5f);
         yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f,6f), 0), Quaternion.identity);
-        StartCoroutine(spawnEnemy(interval, newEnemy));
+
+        float rand = Random.Range(1, 101);
+        GameObject enemy;
+        if (rand <= 50)
+            enemy = zombiePrefab;
+        else if (rand <= 90)
+            enemy = doggoPrefab;
+        else enemy = bossPrefab;
+
+        if (GameManager.instance.currentMonsterNum < GameManager.instance.maxMonsterNum)
+        {
+			Instantiate(enemy, transform.position, Quaternion.identity);
+            ++GameManager.instance.currentMonsterNum;
+		}
+        StartCoroutine(spawnEnemy());
+    }
+
+    private void DestroyPortal()
+    {
+        Destroy(gameObject);
+        EventManager.PortalDestroyEvent.Invoke();
     }
 }
