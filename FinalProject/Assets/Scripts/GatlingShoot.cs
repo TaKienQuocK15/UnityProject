@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class PlayerShoot : MonoBehaviour
+public class GatlingShoot : MonoBehaviour
 {
     [SerializeField]
     private GameObject _bullet;
@@ -23,20 +22,21 @@ public class PlayerShoot : MonoBehaviour
             lasttime = Time.time;
         }
 
-        
+
     }
     private void FireBullet()
     {
-        GameObject bullet = Instantiate(_bullet, transform.position,transform.rotation);
+        GameObject bullet = Instantiate(_bullet, transform.position, transform.rotation);
         Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
-        rigidbody.velocity = speed*transform.up;
+        rigidbody.velocity = speed * transform.up;
     }
     private void OnFire()
     {
         if (aimjoystick.Horizontal >= 0.6f || aimjoystick.Vertical >= 0.6f)
         {
             FireBullet();
-        }else if (aimjoystick.Horizontal <= -0.6f || aimjoystick.Vertical <= -0.6f)
+        }
+        else if (aimjoystick.Horizontal <= -0.6f || aimjoystick.Vertical <= -0.6f)
         {
             FireBullet();
         }
