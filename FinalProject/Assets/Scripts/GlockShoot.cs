@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootsGunBullet : MonoBehaviour
+public class GlockShoot : MonoBehaviour
 {
     [SerializeField]
     private GameObject _bullet;
@@ -12,8 +12,6 @@ public class ShootsGunBullet : MonoBehaviour
     [SerializeField]
     private float countdow;
     private float lasttime;
-    [SerializeField]
-    private float spread;
 
     void Update()
     {
@@ -28,16 +26,9 @@ public class ShootsGunBullet : MonoBehaviour
     }
     private void FireBullet()
     {
-        Debug.Log("fire");
-        for(int i =0; i < 3; i++)
-        {
-            GameObject bullet = Instantiate(_bullet, transform.position, transform.rotation);
-            Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 dir = transform.rotation * Vector2.up;
-            Vector2 pdir = Vector2.Perpendicular(dir)*Random.Range(-spread,spread );    
-            rigidbody.velocity = (dir+pdir)*speed;
-        }
-        
+        GameObject bullet = Instantiate(_bullet, transform.position, transform.rotation);
+        Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
+        rigidbody.velocity = speed * transform.up;
     }
     private void OnFire()
     {

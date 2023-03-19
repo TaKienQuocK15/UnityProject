@@ -10,34 +10,41 @@ public class EnemySpawner : MonoBehaviour
     private GameObject doggoPrefab;
     [SerializeField]
     private GameObject bossPrefab;
-    [SerializeField]
-    private float zombieCooldown = 2f;
-    [SerializeField]
-    private float doggoCooldown = 5.5f;
-    [SerializeField]
-    private float bossCooldown = 6.5f;
-    public float spawnRange = 5f;
+
+    private float existTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        existTime = Random.Range(15f, 30f);
+        Invoke("DestroyPortal", existTime);
 
-        /*StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
-        StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));*/
-        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(spawnEnemy(zombieCooldown, playerTransform));
-
-
-
+        StartCoroutine(spawnEnemy());
     }
-    private IEnumerator spawnEnemy(float interval, Transform playerTransform)
+
+    private IEnumerator spawnEnemy()
     {
+        float interval = Random.Range(3f, 5f);
         yield return new WaitForSeconds(interval);
-        Vector3 randomOffset = transform.position + Random.insideUnitSphere * spawnRange;
-        Vector3 spawnPos = playerTransform.position + randomOffset;
-        /*GameObject newEnemy = Instantiate(enemyPrefab, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6f), 0), Quaternion.identity);*/
-        GameObject newEnemy = EnemyPool.instance.getEnemy();
-        newEnemy.transform.position = spawnPos;
-        newEnemy.SetActive(true);
-        StartCoroutine(spawnEnemy(interval, playerTransform));
+        float rand = Random.Range(1, 101);
+        GameObject enemy;
+        if (rand <= 50)
+            enemy = zombiePrefab;
+        else if (rand <= 90)
+            enemy = doggoPrefab;
+        else enemy = bossPrefab;
+
+        if (GameManager.instance.currentMonsterNum < GameManager.instance.maxMonsterNum)
+        {
+			Instantiate(enemy, transform.position, Quaternion.identity);
+            ++GameManager.instance.currentMonsterNum;
+		}
+        StartCoroutine(spawnEnemy());
+    }
+
+    private void DestroyPortal()
+    {
+        Destroy(gameObject);
+        EventManager.PortalDestroyEvent.Invoke();
     }
 }

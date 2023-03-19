@@ -33,24 +33,6 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if(currentGun < totalGun-1)
-            {
-                gun[currentGun].SetActive(false);
-                currentGun++;
-                gun[currentGun].SetActive(true) ;
-                Debug.Log(currentGun);
-            }else
-            if(currentGun >0)
-            {
-                gun[currentGun].SetActive(false);
-                currentGun--;
-                gun[currentGun].SetActive(true);
-                Debug.Log(currentGun);
-            }
-        }
-
         move.x = joystick.Horizontal;
         move.y = joystick.Vertical;
 
@@ -59,6 +41,37 @@ public class Player : MonoBehaviour
         float vAxis = aim.y;
         float zAxis = Mathf.Atan2(hAxis, vAxis)*Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(0f,0f,-zAxis);
+    }
+    private void OnEnable()
+    {
+        EventManager.GetGlock.AddListener(changeGlock);
+        EventManager.GetShootsGun.AddListener(changeShootgun);
+        EventManager.GetGetGatling.AddListener(changeGatling);
+    }
+    private void OnDisable()
+    {
+        EventManager.GetGlock.RemoveListener(changeGlock);
+        EventManager.GetShootsGun.RemoveListener(changeShootgun);
+        EventManager.GetGetGatling.RemoveListener(changeGatling);
+    }
+    void changeGun(int change)
+    {
+        gun[currentGun].SetActive(false);
+        gun[change].SetActive(true);
+        currentGun = change;
+        Debug.Log(currentGun);
+    }
+    void changeGlock()
+    {
+        changeGun(0);
+    }
+    void changeShootgun()
+    {
+        changeGun(1);
+    }
+    void changeGatling()
+    {
+        changeGun(2);
     }
     private void FixedUpdate()
     {
