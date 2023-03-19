@@ -1222,8 +1222,8 @@ Transform:
   m_Father: {fileID: 1604584014}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1493170377
-GameObject:
+--- !u!114 &1383227498
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1239,6 +1239,12 @@ GameObject:
   aimjoystick: {fileID: 500917384}
   countdow: 2
   spread: 0.4
+--- !u!1 &1493170377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1493170381}
