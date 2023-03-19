@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.022489065, g: 0.5566038, b: 0, a: 1}
   m_FlipX: 0
@@ -97,9 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb7456382a563e49b2c60ff38d781a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombiePrefab: {fileID: 0}
-  doggoPrefab: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  zombieCooldown: 3.5
-  doggoCooldown: 5.5
-  bossCooldown: 6.5
+  zombiePrefab: {fileID: 800133105665142226, guid: 66c352bd7a7b21548847d7efae1df657, type: 3}
+  doggoPrefab: {fileID: 666086447376879618, guid: 72632d6742ef99349a1be57ffb594cae, type: 3}
+  bossPrefab: {fileID: 8382140134915988820, guid: f94beb828f82ec84f9a8f4720a38136c, type: 3}
