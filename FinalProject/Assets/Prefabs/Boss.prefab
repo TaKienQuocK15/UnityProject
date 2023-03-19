@@ -103,6 +103,9 @@ MonoBehaviour:
   speed: 1
   hp: 5
   Data: {fileID: 11400000, guid: 2d0877da3b27c264d8b6c6495c93a258, type: 2}
+  items:
+  - {fileID: 7858478072849357153, guid: ab643bd2414cf094e96d085a9a7a9cd2, type: 3}
+  - {fileID: 135195711998598982, guid: 47ad6264ec1585d4091ba9c1e5c89cbd, type: 3}
 --- !u!61 &3663931570066564905
 BoxCollider2D:
   m_ObjectHideFlags: 0
