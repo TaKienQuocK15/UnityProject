@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     int maxPortalNum = 5;
     public int maxMonsterNum = 100;
     public int currentMonsterNum;
+
+    public GameObject[] droppableItems;
     
     [SerializeField] Transform pointNW, pointSE;
     [SerializeField] GameObject portalPrefab;

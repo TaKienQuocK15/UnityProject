@@ -17,11 +17,16 @@ public class Enemy : MonoBehaviour
     private float distance;
     private bool damaging = false;
     HealthPlayer playerHealth;
+
+    GameObject[] items;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         setEnemyValues();
+
+        items = GameManager.instance.droppableItems;
     }
 
     // Update is called once per frame
@@ -67,10 +72,13 @@ public class Enemy : MonoBehaviour
     }
     private void enemyDie()
     {
-        //GetComponent<LootBag>().dropLoot(transform.position);
-        //EnemyPool.instance.returnEnemyToPool(gameObject);
+        int rand = Random.Range(0, 2);
+        if (rand == 1)
+        {
+            int itemId = Random.Range(0, items.Length);
+            Instantiate(items[itemId], transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
