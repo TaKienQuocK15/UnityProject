@@ -77,4 +77,5 @@ public class Player : MonoBehaviour
     {
         rb.MovePosition(rb.position+move*speed*Time.fixedDeltaTime);
     }
+
 }

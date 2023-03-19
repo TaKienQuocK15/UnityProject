@@ -10,4 +10,5 @@ public  class EventManager :MonoBehaviour
     public static UnityEvent GetGlock = new UnityEvent();
     public static UnityEvent GetShootsGun = new UnityEvent();
     public static UnityEvent GetGetGatling = new UnityEvent();
+    public static UnityEvent PortalDestroyEvent = new UnityEvent();
 }
