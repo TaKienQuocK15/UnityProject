@@ -738,7 +738,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1604584013
 GameObject:
@@ -1336,8 +1336,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb7456382a563e49b2c60ff38d781a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 800133105665142226, guid: 66c352bd7a7b21548847d7efae1df657, type: 3}
-  enemyCooldown: 3.5
+  zombiePrefab: {fileID: 800133105665142226, guid: 66c352bd7a7b21548847d7efae1df657, type: 3}
+  doggoPrefab: {fileID: 666086447376879618, guid: 72632d6742ef99349a1be57ffb594cae, type: 3}
+  bossPrefab: {fileID: 8382140134915988820, guid: f94beb828f82ec84f9a8f4720a38136c, type: 3}
+  zombieCooldown: 3.5
+  doggoCooldown: 5.5
+  bossCooldown: 6.5
 --- !u!4 &2141418681
 Transform:
   m_ObjectHideFlags: 0
@@ -1351,5 +1355,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

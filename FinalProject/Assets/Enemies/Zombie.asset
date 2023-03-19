@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7b415f5dbdbbc489e72b9b845d086f, type: 3}
   m_Name: Zombie
   m_EditorClassIdentifier: 
-  hp: 55
+  hp: 10
   damage: 25
-  speed: 1.5
+  speed: 1.2
   score: 100

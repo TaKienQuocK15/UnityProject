@@ -20,12 +20,14 @@ public class HealthPlayer : MonoBehaviour
     {
         EventManager.GetShieldEvent.AddListener(GetShield);
         EventManager.GetItemHealthEvent.AddListener(addHealth);
+        
     }
     void GetShield()
     {
         shield=true;
         Debug.Log("shield");
     }
+    
     void addHealth()
     {
 
@@ -41,17 +43,20 @@ public class HealthPlayer : MonoBehaviour
     {
         EventManager.GetShieldEvent.RemoveListener(GetShield);
         EventManager.GetItemHealthEvent.RemoveListener(addHealth);
+        
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDame(10);
-        }
-        
+        }*/
+        fullHealth();
+
+
     }
-    void TakeDame(int dame)
+    public void PlayerDamaged(int dame)
     {
         if (shield == true)
         {    
@@ -63,7 +68,13 @@ public class HealthPlayer : MonoBehaviour
         
         
     }
-  
+    public void fullHealth()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentHealth = 100;
+        }
+    }
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
     //    GameObject whatHit = collision.gameObject;

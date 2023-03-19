@@ -6,20 +6,22 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private int damage = 5;
+    private int damage = 10;
     [SerializeField]
     private float speed = 1.5f;
     [SerializeField]
-    private float hp = 5;
+    private float hp = 20;
     [SerializeField]
     private EnemyData Data;
     private GameObject player;
     private float distance;
+    private bool damaging = false;
+    HealthPlayer playerHealth;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        hp = Data.hp;
+        setEnemyValues();
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class Enemy : MonoBehaviour
     {
         followPlayer();
         /*TouchPlayer();*/
+        
     }
     
     private void followPlayer()
@@ -40,6 +43,12 @@ public class Enemy : MonoBehaviour
         
         
     }
+    private void setEnemyValues()
+    {
+        hp = Data.hp;
+        damage = Data.damage;
+        speed = Data.speed;
+    }
     private void damagePlayer()
     {
 
@@ -49,24 +58,53 @@ public class Enemy : MonoBehaviour
         hp -= amount;
         if(hp <= 0)
         {
-            Destroy(gameObject);
+            enemyDie();
         }
 
     }
-    /*private void TouchPlayer()
+    private void enemyDie()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius, enemyLayer);
-        foreach (Collider2D hitCollider in hitColliders)
-        {
-            if (hitCollider.gameObject.CompareTag("Player"))
-            {
-                damaged(5);
-            }
-        }
-        
-    }*/
+        Destroy(gameObject);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("trigger");
+        if (collision.gameObject.CompareTag("Player")){
+            playerHealth = collision.gameObject.GetComponent<HealthPlayer>();
+            if (playerHealth != null)
+            {
+                if(!damaging)
+                StartCoroutine(TakingDamage());
+            }
+        }
+        /*gameObject.GetComponent<HealthPlayer>().PlayerDamaged(damage)*/
+        
+    }
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Stop taking damage when no longer colliding
+            damaging = false;
+        }
+    }
+    IEnumerator TakingDamage()
+    {
+        damaging = true;
+
+        while (true)
+        {
+
+            // Inflict damage every second while still colliding
+            playerHealth.PlayerDamaged(damage);
+
+            yield return new WaitForSeconds(1);
+
+            // Exit loop when no longer colliding
+            if (!damaging)
+                break;
+        }
+
+        damaging = false;
     }
 }
