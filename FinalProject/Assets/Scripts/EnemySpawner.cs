@@ -16,23 +16,30 @@ public class EnemySpawner : MonoBehaviour
     private float doggoCooldown = 5.5f;
     [SerializeField]
     private float bossCooldown = 6.5f;
+
+    private float existTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spawnEnemy(zombieCooldown, zombiePrefab));
-        StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
-        StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));
+        existTime = Random.Range(15f, 30f);
+        Invoke("DestroyPortal", existTime);
+
+        //StartCoroutine(spawnEnemy(zombieCooldown, zombiePrefab));
+        //StartCoroutine(spawnEnemy(doggoCooldown, doggoPrefab));
+        //StartCoroutine(spawnEnemy(bossCooldown, bossPrefab));
     }
 
- /*   // Update is called once per frame
-    void Update()
-    {
-        
-    }*/
     private IEnumerator spawnEnemy(float interval, GameObject enemy)
     {
         yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f,6f), 0), Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6f), 0), Quaternion.identity);
         StartCoroutine(spawnEnemy(interval, newEnemy));
+    }
+
+    private void DestroyPortal()
+    {
+        Destroy(gameObject);
+        EventManager.PortalDestroyEvent.Invoke();
     }
 }
