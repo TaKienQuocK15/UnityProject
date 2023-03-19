@@ -67,8 +67,9 @@ public class Enemy : MonoBehaviour
     }
     private void enemyDie()
     {
-        GetComponent<LootBag>().dropLoot(transform.position);
-        EnemyPool.instance.returnEnemyToPool(gameObject);
+        //GetComponent<LootBag>().dropLoot(transform.position);
+        //EnemyPool.instance.returnEnemyToPool(gameObject);
+        Destroy(gameObject);
         
     }
 
