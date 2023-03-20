@@ -1238,7 +1238,7 @@ MonoBehaviour:
   speed: 3
   aimjoystick: {fileID: 500917384}
   countdow: 2
-  spread: 0.4
+  spread: 0.2
 --- !u!1 &1493170377
 GameObject:
   m_ObjectHideFlags: 0
