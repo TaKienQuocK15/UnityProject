@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class HealthPlayer : MonoBehaviour
 {
-    public int maxHealth = 100;
+    public int maxHealth;
     public int currentHealth;
     //private HealthPlayer healthPlayer;
     public bool shield;
+    [SerializeField] GameObject shieldIcon;
+    public bool invincible;
     public HealthBar healthBar;
    
     void Start()
     {
         shield = false;
+        invincible = false;
+        maxHealth = 10;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
@@ -24,14 +28,14 @@ public class HealthPlayer : MonoBehaviour
     }
     void GetShield()
     {
-        shield=true;
-        Debug.Log("shield");
+        shield = true;
+        shieldIcon.SetActive(true);
     }
     
     void addHealth()
     {
 
-        currentHealth += 10;
+        currentHealth += 1;
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
@@ -45,44 +49,36 @@ public class HealthPlayer : MonoBehaviour
         EventManager.GetItemHealthEvent.RemoveListener(addHealth);
         
     }
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDame(10);
-        }*/
-        fullHealth();
-
-
-    }
     
     public void PlayerDamaged(int dame)
     {
+        if (invincible)
+            return;
+
         if (shield == true)
         {    
             shield=false;
+            shieldIcon.SetActive(false);
+            BeInvincible();
             return;
         }
+
         currentHealth -= dame;
         healthBar.SetHealth(currentHealth);
-        
-        
+        BeInvincible();
     }
-    public void fullHealth()
+
+    void BeInvincible()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            currentHealth = 100;
-        }
+        invincible = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        StartCoroutine(InvincibleCooldown());
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    GameObject whatHit = collision.gameObject;
-    //    if (whatHit.CompareTag("health"))
-    //    {
-    //        addHealth(10);
-    //        Destroy(whatHit);
-    //    }
-    //}
+
+    IEnumerator InvincibleCooldown()
+    {
+        yield return new WaitForSeconds(3f);
+        invincible = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
 }

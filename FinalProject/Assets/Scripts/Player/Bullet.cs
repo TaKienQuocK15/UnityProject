@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private float life;
-    private float damage;
+    private int damage;
 
     private void OnEnable()
     { 
@@ -22,13 +22,24 @@ public class Bullet : MonoBehaviour
         this.life = life;
     }
 
-    public void SetDamage(float damage)
+    public void SetDamage(int damage)
     {
         this.damage = damage;
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 
     public void DestroyBullet()
     {
         ObjectPool.instance.ReturnObject("Bullet", gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Barrier"))
+            DestroyBullet();
     }
 }

@@ -6,8 +6,9 @@ public class GlockShoot : Gun
 {
 	public override void Initialize()
 	{
-        range = 5;
+        range = 8;
         cooldownTime = 0.5f;
+        damage = 1;
 	}
 
 	public override void FireBullet()
@@ -19,6 +20,7 @@ public class GlockShoot : Gun
         bullet.transform.position = transform.position;
         bullet.transform.rotation = transform.rotation;
         bullet.GetComponent<Bullet>().SetLife(range / speed);
+		bullet.GetComponent<Bullet>().SetDamage(damage);
 
 		bullet.SetActive(true);
 		Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();

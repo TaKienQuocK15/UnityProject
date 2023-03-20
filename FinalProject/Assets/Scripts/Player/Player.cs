@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        ChangeToDefaultGun();
+        changeGlock();
     }
 
     private void Update()
@@ -66,22 +66,20 @@ public class Player : MonoBehaviour
     void changeGlock()
     {
         changeGun(glockGun);
+        UIManager.instance.ChangeToGlock();
     }
 
     void changeShootgun()
     {
         changeGun(shotGun);
-    }
+		UIManager.instance.ChangeToShotgun();
+	}
 
     void changeGatling()
     {
         changeGun(gatlingGun);
-    }
-
-    void ChangeToDefaultGun()
-    {
-        changeGlock();
-    }
+		UIManager.instance.ChangeToGatling();
+	}
 
     private void FixedUpdate()
     {

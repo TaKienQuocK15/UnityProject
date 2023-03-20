@@ -9,6 +9,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Text score;
 
+    [SerializeField] Text bulletNum;
+    [SerializeField] Image gunSprite;
+    [SerializeField] Sprite glockSprite, gatlingSprite, shotgunSprite;
+
     private void Awake()
     {
         if (instance == null)
@@ -19,5 +23,26 @@ public class UIManager : MonoBehaviour
     public void ChangeScore(int newScore)
     {
         score.text = "Score: " + newScore;
+    }
+
+    public void ChangeBulletNum(int num)
+    {
+        bulletNum.text = num.ToString();
+    }
+
+    public void ChangeToGlock()
+    {
+        gunSprite.sprite = glockSprite;
+        bulletNum.text = "Åá";
+	}
+
+    public void ChangeToGatling()
+    {
+        gunSprite.sprite = gatlingSprite;
+    }
+
+    public void ChangeToShotgun()
+    {
+        gunSprite.sprite = shotgunSprite;
     }
 }

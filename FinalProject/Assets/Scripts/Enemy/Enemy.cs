@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
     private void setEnemyValues()
     {
         hp = Data.hp;
-        damage = 10;
+        damage = 1;
         speed = Data.speed;
         score = Data.score;
     }
@@ -85,45 +85,14 @@ public class Enemy : MonoBehaviour
             playerHealth = collision.gameObject.GetComponent<HealthPlayer>();
             if (playerHealth != null)
             {
-                if(!damaging)
-                StartCoroutine(dealingDamage());
-            }
+				playerHealth.PlayerDamaged(damage);
+			}
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.CompareTag("Bullet"))
+        else if (collision.gameObject.CompareTag("Bullet"))
         {
-            damaged(50);
+            GameObject bullet = collision.gameObject;
+            damaged(bullet.GetComponent<Bullet>().GetDamage());
+            bullet.GetComponent<Bullet>().DestroyBullet();
         }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            // Stop taking damage when no longer colliding
-            damaging = false;
-        }
-    }
-
-    IEnumerator dealingDamage()
-    {
-        damaging = true;
-
-        while (true)
-        {
-
-            // Inflict damage every second while still colliding
-            playerHealth.PlayerDamaged(damage);
-
-            yield return new WaitForSeconds(1);
-
-            // Exit loop when no longer colliding
-            if (!damaging)
-                break;
-        }
-        damaging = false;
     }
 }

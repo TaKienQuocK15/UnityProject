@@ -9,6 +9,7 @@ public abstract class Gun : MonoBehaviour
     internal bool isCooldown = false;
     internal float cooldownTime;
     internal float speed = 10;
+    internal int damage;
 
     public abstract void Initialize();
     public abstract void FireBullet();

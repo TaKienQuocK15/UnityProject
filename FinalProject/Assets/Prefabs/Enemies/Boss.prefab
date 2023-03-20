@@ -99,9 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed65e7e01f469ac4b8d7691c326e4d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
-  speed: 1
-  hp: 5
   Data: {fileID: 11400000, guid: 2d0877da3b27c264d8b6c6495c93a258, type: 2}
   poolKey: Boss
 --- !u!61 &3663931570066564905
@@ -142,7 +139,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 9999
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0

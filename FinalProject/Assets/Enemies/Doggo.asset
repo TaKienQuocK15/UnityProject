@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7b415f5dbdbbc489e72b9b845d086f, type: 3}
   m_Name: Doggo
   m_EditorClassIdentifier: 
-  hp: 5
-  damage: 2
-  speed: 2
+  hp: 1
+  speed: 3
   score: 150

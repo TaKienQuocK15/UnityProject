@@ -12,18 +12,18 @@ public class EnemySpawner : MonoBehaviour
         existTime = Random.Range(15f, 30f);
         Invoke("DestroyPortal", existTime);
 
-        //StartCoroutine(spawnEnemy());
+        StartCoroutine(spawnEnemy());
     }
 
     private IEnumerator spawnEnemy()
     {
-        float interval = Random.Range(3f, 5f);
+        float interval = Random.Range(5f, 7f);
         yield return new WaitForSeconds(interval);
         float rand = Random.Range(1, 101);
         GameObject enemy;
         if (rand <= 50)
             enemy = ObjectPool.instance.GetObject("Zombie");
-        else if (rand <= 90)
+        else if (rand <= 95)
             enemy = ObjectPool.instance.GetObject("Doggo");
         else enemy = ObjectPool.instance.GetObject("Boss");
 
