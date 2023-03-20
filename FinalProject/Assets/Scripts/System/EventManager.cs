@@ -16,6 +16,8 @@ public class EventManager :MonoBehaviour
     public static UnityEvent EnemySpawnEvent = new UnityEvent();
     public static UnityEvent<EnemyDestroyEventData> EnemyDestroyEvent 
         = new UnityEvent<EnemyDestroyEventData>();
+
+    public static UnityEvent GameOverEvent = new UnityEvent();
 }
 
 public class EnemyDestroyEventData

@@ -19,6 +19,12 @@ public class ButtonManager : MonoBehaviour
         pauseScreen.SetActive(false);
     }
 
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
     public void ReturnToHome()
     {
         Time.timeScale = 1f;

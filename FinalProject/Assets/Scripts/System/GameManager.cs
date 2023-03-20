@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         EventManager.PortalDestroyEvent.AddListener(SpawnPortal);
         EventManager.EnemySpawnEvent.AddListener(OnEnemySpawn);
         EventManager.EnemyDestroyEvent.AddListener(OnEnemyDestroy);
+        EventManager.GameOverEvent.AddListener(OnGameOver);
     }
 
     private void OnDisable()
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         EventManager.PortalDestroyEvent.RemoveListener(SpawnPortal);
         EventManager.EnemySpawnEvent.RemoveListener(OnEnemySpawn);
 		EventManager.EnemyDestroyEvent.RemoveListener(OnEnemyDestroy);
+		EventManager.GameOverEvent.RemoveListener(OnGameOver);
 	}
 
     private void Start()
@@ -81,5 +83,10 @@ public class GameManager : MonoBehaviour
     {
         score += amount;
         UIManager.instance.ChangeScore(score);
+    }
+
+    void OnGameOver()
+    {
+        Time.timeScale = 0;
     }
 }

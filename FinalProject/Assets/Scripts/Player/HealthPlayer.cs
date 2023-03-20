@@ -64,6 +64,12 @@ public class HealthPlayer : MonoBehaviour
         }
 
         currentHealth -= dame;
+        if (currentHealth <= 0)
+        {
+            EventManager.GameOverEvent.Invoke();
+            return;
+        }
+
         healthBar.SetHealth(currentHealth);
         BeInvincible();
     }
