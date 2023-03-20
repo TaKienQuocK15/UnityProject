@@ -16,7 +16,7 @@ public class HealthPlayer : MonoBehaviour
     {
         shield = false;
         invincible = false;
-        maxHealth = 10;
+        maxHealth = 5;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
