@@ -12,6 +12,7 @@ public class GatlingShoot : MonoBehaviour
     [SerializeField]
     private float countdow;
     private float lasttime;
+    private int amount = 100;
 
     void Update()
     {
@@ -20,12 +21,19 @@ public class GatlingShoot : MonoBehaviour
         {
             OnFire();
             lasttime = Time.time;
+            amount--;
+        }
+        if (amount < 0)
+        {
+            amount = 100;
+            EventManager.GetGlock.Invoke();
         }
 
 
     }
     private void FireBullet()
     {
+        
         GameObject bullet = Instantiate(_bullet, transform.position, transform.rotation);
         Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
         rigidbody.velocity = speed * transform.up;
