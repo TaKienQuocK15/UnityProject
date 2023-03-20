@@ -10,27 +10,18 @@ public class Player : MonoBehaviour
     Vector2 move;
     Vector2 aim;
     public float speed;
-    int totalGun = 3;
-    public int currentGun;
-    public GameObject[] gun;
-    public GameObject weapon;
-    public GameObject currentweapons;
+
+    [SerializeField] Gun glockGun;
+    [SerializeField] Gun gatlingGun;
+    [SerializeField] Gun shotGun;
+    Gun currentGun;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        totalGun = weapon.transform.childCount;
-        gun = new GameObject[totalGun];
-        for(int i = 0; i < totalGun; i++)
-        {
-            gun[i] = weapon.transform.GetChild(i).gameObject;
-            gun[i].SetActive(false);
-        }
-        gun[0].SetActive(true);
-        currentweapons = gun[0];
-        currentGun = 0;
-        Debug.Log(totalGun);
+        ChangeToDefaultGun();
     }
+
     private void Update()
     {
         move.x = joystick.Horizontal;
@@ -41,41 +32,65 @@ public class Player : MonoBehaviour
         float vAxis = aim.y;
         float zAxis = Mathf.Atan2(hAxis, vAxis)*Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(0f,0f,-zAxis);
+
+		if (aimjoystick.Horizontal >= 0.6f || aimjoystick.Vertical >= 0.6f)
+        {
+            FireBullet();
+        }
+        else if (aimjoystick.Horizontal <= -0.6f || aimjoystick.Vertical <= -0.6f)
+        {
+            FireBullet();
+        }
     }
-    private void OnEnable()
+
+	private void OnEnable()
     {
         EventManager.GetGlock.AddListener(changeGlock);
         EventManager.GetShootsGun.AddListener(changeShootgun);
         EventManager.GetGetGatling.AddListener(changeGatling);
     }
+
     private void OnDisable()
     {
         EventManager.GetGlock.RemoveListener(changeGlock);
         EventManager.GetShootsGun.RemoveListener(changeShootgun);
         EventManager.GetGetGatling.RemoveListener(changeGatling);
     }
-    void changeGun(int change)
+
+    void changeGun(Gun gun)
     {
-        gun[currentGun].SetActive(false);
-        gun[change].SetActive(true);
-        currentGun = change;
-        Debug.Log(currentGun);
+        currentGun = gun;
+        currentGun.Initialize();
     }
+
     void changeGlock()
     {
-        changeGun(0);
+        changeGun(glockGun);
     }
+
     void changeShootgun()
     {
-        changeGun(1);
+        changeGun(shotGun);
     }
+
     void changeGatling()
     {
-        changeGun(2);
+        changeGun(gatlingGun);
     }
+
+    void ChangeToDefaultGun()
+    {
+        changeGlock();
+    }
+
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position+move*speed*Time.fixedDeltaTime);
+    }
+
+    private void FireBullet()
+    {
+        currentGun.FireBullet();
     }
 
 }

@@ -38,7 +38,7 @@ public class ObjectPool : MonoBehaviour
             List<GameObject> pool = new List<GameObject>();
 			for (int i = 0; i < 100; ++i)
 			{
-                GetNewObject(pair.Key);
+                pool.Add(GetNewObject(pair.Key));
 			}
 			poolList.Add(pair.Key, pool);
             

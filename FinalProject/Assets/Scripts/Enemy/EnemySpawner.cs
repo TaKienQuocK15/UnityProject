@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
         existTime = Random.Range(15f, 30f);
         Invoke("DestroyPortal", existTime);
 
-        StartCoroutine(spawnEnemy());
+        //StartCoroutine(spawnEnemy());
     }
 
     private IEnumerator spawnEnemy()
