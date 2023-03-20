@@ -14,6 +14,11 @@ public class GatlingShoot : MonoBehaviour
     private float lasttime;
     private int amount = 100;
 
+    private void OnEnable()
+    {
+        amount = 100;
+    }
+
     void Update()
     {
         float time = Time.time - lasttime;
@@ -25,7 +30,7 @@ public class GatlingShoot : MonoBehaviour
         }
         if (amount < 0)
         {
-            amount = 100;
+            //amount = 100;
             EventManager.GetGlock.Invoke();
         }
 

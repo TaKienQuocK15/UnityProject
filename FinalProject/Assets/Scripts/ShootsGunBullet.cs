@@ -16,6 +16,11 @@ public class ShootsGunBullet : MonoBehaviour
     private float spread;
     private int amount = 25;
 
+    private void OnEnable()
+    {
+        amount = 25;
+    }
+
     void Update()
     {
         float time = Time.time - lasttime;
@@ -27,7 +32,7 @@ public class ShootsGunBullet : MonoBehaviour
         }
         if (amount < 0)
         {
-            amount = 25;
+            //amount = 25;
             EventManager.GetGlock.Invoke();
         }
 
