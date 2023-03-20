@@ -27,6 +27,7 @@ public class ShootsGunBullet : MonoBehaviour
         }
         if (amount < 0)
         {
+            amount = 25;
             EventManager.GetGlock.Invoke();
         }
 

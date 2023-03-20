@@ -25,6 +25,7 @@ public class GatlingShoot : MonoBehaviour
         }
         if (amount < 0)
         {
+            amount = 100;
             EventManager.GetGlock.Invoke();
         }
 
