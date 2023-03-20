@@ -5,57 +5,52 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private int damage = 10;
-    [SerializeField]
-    private float speed = 1.5f;
-    [SerializeField]
-    private float hp = 20;
-    [SerializeField]
-    private EnemyData Data;
+	[SerializeField]
+	private EnemyData Data;
+
+	private int damage;
+    private float speed;
+    private int hp;
+    private int score;
+    
     private GameObject player;
-    private float distance;
     private bool damaging = false;
     HealthPlayer playerHealth;
+
+    GameObject[] items;
+    [SerializeField] string poolKey;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         setEnemyValues();
+
+        items = GameManager.instance.droppableItems;
     }
 
     // Update is called once per frame
     void Update()
     {
         followPlayer();
-        /*TouchPlayer();*/
-        
     }
-    private void OnEnable()
-    {
-        EventManager.GetShieldEvent.AddListener(enemyDie);
-
-
-    }
-    private void OnDisable()
-    {
-        EventManager.GetShieldEvent.RemoveListener(enemyDie);
-    }
+    
     private void followPlayer()
     {
         if(player != null)
         {
-            /*distance = Vector2.Distance(transform.position, player.transform.position);
-            Vector2 direction = player.transform.position - transform.position;*/
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Data.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
     }
+
     private void setEnemyValues()
     {
         hp = Data.hp;
-        damage = Data.damage;
+        damage = 10;
         speed = Data.speed;
+        score = Data.score;
     }
+
     private void damaged(int amount)
     {
         hp -= amount;
@@ -65,12 +60,23 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
     private void enemyDie()
     {
-        //GetComponent<LootBag>().dropLoot(transform.position);
-        //EnemyPool.instance.returnEnemyToPool(gameObject);
-        Destroy(gameObject);
+        EventManager.EnemyDestroyEvent.Invoke(new EnemyDestroyEventData
+        {
+            score = this.score
+        });
+
+        //Drop item
+        int rand = Random.Range(1, 101);
+        if (rand <= 30)
+        {
+            int itemId = Random.Range(0, items.Length);
+            Instantiate(items[itemId], transform.position, Quaternion.identity);
+        }
         
+        ObjectPool.instance.ReturnObject(poolKey, gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -83,8 +89,8 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(dealingDamage());
             }
         }
-
     }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Bullet"))
@@ -92,6 +98,7 @@ public class Enemy : MonoBehaviour
             damaged(50);
         }
     }
+
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -100,6 +107,7 @@ public class Enemy : MonoBehaviour
             damaging = false;
         }
     }
+
     IEnumerator dealingDamage()
     {
         damaging = true;
