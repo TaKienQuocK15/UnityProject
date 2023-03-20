@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private int damage = 10;
-    [SerializeField]
-    private float speed = 1.5f;
-    [SerializeField]
-    private float hp = 20;
-    [SerializeField]
-    private EnemyData Data;
+	[SerializeField]
+	private EnemyData Data;
+
+	private int damage;
+    private float speed;
+    private int hp;
+    private int score;
+    
     private GameObject player;
     private bool damaging = false;
     HealthPlayer playerHealth;
@@ -34,26 +34,20 @@ public class Enemy : MonoBehaviour
     {
         followPlayer();
     }
-    private void OnEnable()
-    {
-        EventManager.GetShieldEvent.AddListener(enemyDie);
-    }
-    private void OnDisable()
-    {
-        EventManager.GetShieldEvent.RemoveListener(enemyDie);
-    }
+    
     private void followPlayer()
     {
         if(player != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Data.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
     }
     private void setEnemyValues()
     {
         hp = Data.hp;
-        damage = Data.damage;
+        damage = 10;
         speed = Data.speed;
+        score = Data.score;
     }
     private void damaged(int amount)
     {
@@ -66,12 +60,19 @@ public class Enemy : MonoBehaviour
     }
     private void enemyDie()
     {
+        EventManager.EnemyDestroyEvent.Invoke(new EnemyDestroyEventData
+        {
+            score = this.score
+        });
+
+        //Drop item
         int rand = Random.Range(1, 101);
         if (rand <= 30)
         {
             int itemId = Random.Range(0, items.Length);
             Instantiate(items[itemId], transform.position, Quaternion.identity);
         }
+        
         ObjectPool.instance.ReturnObject(poolKey, gameObject);
     }
 

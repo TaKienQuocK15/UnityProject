@@ -28,11 +28,11 @@ public class EnemySpawner : MonoBehaviour
         else enemy = ObjectPool.instance.GetObject("Boss");
 
 
-		if (GameManager.instance.currentMonsterNum < GameManager.instance.maxMonsterNum)
+		if (!GameManager.instance.FullEnemy())
         {
             enemy.transform.position = transform.position;
             enemy.SetActive(true);
-            ++GameManager.instance.currentMonsterNum;
+            EventManager.EnemySpawnEvent.Invoke();
 		}
         StartCoroutine(spawnEnemy());
     }

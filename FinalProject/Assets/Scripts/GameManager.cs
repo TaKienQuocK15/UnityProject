@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     int maxPortalNum = 5;
-    public int maxMonsterNum = 100;
-    public int currentMonsterNum;
+    int maxMonsterNum = 100;
+    int currentMonsterNum;
+
+    int score;
 
     public GameObject[] droppableItems;
     
@@ -25,12 +27,16 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.PortalDestroyEvent.AddListener(SpawnPortal);
+        EventManager.EnemySpawnEvent.AddListener(OnEnemySpawn);
+        EventManager.EnemyDestroyEvent.AddListener(OnEnemyDestroy);
     }
 
     private void OnDisable()
     {
         EventManager.PortalDestroyEvent.RemoveListener(SpawnPortal);
-    }
+        EventManager.EnemySpawnEvent.RemoveListener(OnEnemySpawn);
+		EventManager.EnemyDestroyEvent.RemoveListener(OnEnemyDestroy);
+	}
 
     private void Start()
     {
@@ -53,5 +59,27 @@ public class GameManager : MonoBehaviour
         float y = Random.Range(pointSE.position.y, pointNW.position.y);
 
         return new Vector2(x, y);
+    }
+
+    public bool FullEnemy()
+    {
+        return currentMonsterNum >= maxMonsterNum;
+    }
+
+    void OnEnemySpawn()
+    {
+        currentMonsterNum += 1;
+    }
+
+    void OnEnemyDestroy(EnemyDestroyEventData data)
+    {
+        currentMonsterNum -= 1;
+        AddScore(data.score);
+    }
+
+    void AddScore(int amount)
+    {
+        score += amount;
+        UIManager.instance.ChangeScore(score);
     }
 }
