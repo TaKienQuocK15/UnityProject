@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
     }
+
     private void setEnemyValues()
     {
         hp = Data.hp;
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
         speed = Data.speed;
         score = Data.score;
     }
+
     private void damaged(int amount)
     {
         hp -= amount;
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
     private void enemyDie()
     {
         EventManager.EnemyDestroyEvent.Invoke(new EnemyDestroyEventData
@@ -86,8 +89,8 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(dealingDamage());
             }
         }
-
     }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Bullet"))
@@ -95,6 +98,7 @@ public class Enemy : MonoBehaviour
             damaged(50);
         }
     }
+
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -103,6 +107,7 @@ public class Enemy : MonoBehaviour
             damaging = false;
         }
     }
+
     IEnumerator dealingDamage()
     {
         damaging = true;
