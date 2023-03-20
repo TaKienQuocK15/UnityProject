@@ -14,11 +14,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private EnemyData Data;
     private GameObject player;
-    private float distance;
     private bool damaging = false;
     HealthPlayer playerHealth;
 
     GameObject[] items;
+    [SerializeField] string poolKey;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +33,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         followPlayer();
-        /*TouchPlayer();*/
-        
     }
     private void OnEnable()
     {
         EventManager.GetShieldEvent.AddListener(enemyDie);
-
-
     }
     private void OnDisable()
     {
@@ -50,8 +46,6 @@ public class Enemy : MonoBehaviour
     {
         if(player != null)
         {
-            /*distance = Vector2.Distance(transform.position, player.transform.position);
-            Vector2 direction = player.transform.position - transform.position;*/
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Data.speed * Time.deltaTime);
         }
     }
@@ -72,13 +66,13 @@ public class Enemy : MonoBehaviour
     }
     private void enemyDie()
     {
-        int rand = Random.Range(0, 2);
-        if (rand == 1)
+        int rand = Random.Range(1, 101);
+        if (rand <= 30)
         {
             int itemId = Random.Range(0, items.Length);
             Instantiate(items[itemId], transform.position, Quaternion.identity);
         }
-        Destroy(gameObject);
+        ObjectPool.instance.ReturnObject(poolKey, gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

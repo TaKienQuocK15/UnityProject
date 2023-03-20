@@ -103,9 +103,7 @@ MonoBehaviour:
   speed: 1
   hp: 5
   Data: {fileID: 11400000, guid: d7158112d2e9b3b48b91569b431ddfd5, type: 2}
-  items:
-  - {fileID: 7858478072849357153, guid: ab643bd2414cf094e96d085a9a7a9cd2, type: 3}
-  - {fileID: 135195711998598982, guid: 47ad6264ec1585d4091ba9c1e5c89cbd, type: 3}
+  poolKey: Doggo
 --- !u!61 &5743730319602199167
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +128,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.6}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &5316381165120446887
 Rigidbody2D:

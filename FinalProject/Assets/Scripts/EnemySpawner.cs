@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject zombiePrefab;
-    [SerializeField]
-    private GameObject doggoPrefab;
-    [SerializeField]
-    private GameObject bossPrefab;
-
     private float existTime;
 
     // Start is called before the first frame update
@@ -29,14 +22,16 @@ public class EnemySpawner : MonoBehaviour
         float rand = Random.Range(1, 101);
         GameObject enemy;
         if (rand <= 50)
-            enemy = zombiePrefab;
+            enemy = ObjectPool.instance.GetObject("Zombie");
         else if (rand <= 90)
-            enemy = doggoPrefab;
-        else enemy = bossPrefab;
+            enemy = ObjectPool.instance.GetObject("Doggo");
+        else enemy = ObjectPool.instance.GetObject("Boss");
 
-        if (GameManager.instance.currentMonsterNum < GameManager.instance.maxMonsterNum)
+
+		if (GameManager.instance.currentMonsterNum < GameManager.instance.maxMonsterNum)
         {
-			Instantiate(enemy, transform.position, Quaternion.identity);
+            enemy.transform.position = transform.position;
+            enemy.SetActive(true);
             ++GameManager.instance.currentMonsterNum;
 		}
         StartCoroutine(spawnEnemy());
