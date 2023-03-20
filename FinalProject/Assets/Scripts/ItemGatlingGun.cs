@@ -9,7 +9,7 @@ public class ItemGatlingGun : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject whatHit = collision.gameObject;
         if (whatHit.CompareTag("Player"))

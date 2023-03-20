@@ -4,25 +4,14 @@ using UnityEngine;
 
 public class ItemHealth : MonoBehaviour
 {
-   
-
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        GameObject whatHit = collision.gameObject;
-        if (whatHit.CompareTag("Player"))
-        {
-            //Debug.Log("health");
-            EventManager.GetItemHealthEvent.Invoke();
-            Destroy(gameObject);
-        }
-    }
-
-    void Update()
-    {
-        
-    }
+		GameObject whatHit = collision.gameObject;
+		if (whatHit.CompareTag("Player"))
+		{
+			//Debug.Log("health");
+			EventManager.GetItemHealthEvent.Invoke();
+			Destroy(gameObject);
+		}
+	}
 }
