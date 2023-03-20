@@ -14,6 +14,7 @@ public class ShootsGunBullet : MonoBehaviour
     private float lasttime;
     [SerializeField]
     private float spread;
+    private int amount = 25;
 
     void Update()
     {
@@ -22,20 +23,29 @@ public class ShootsGunBullet : MonoBehaviour
         {
             OnFire();
             lasttime = Time.time;
+            amount--;
+        }
+        if (amount < 0)
+        {
+            amount = 25;
+            EventManager.GetGlock.Invoke();
         }
 
 
     }
     private void FireBullet()
     {
+        float a = -spread;
         Debug.Log("fire");
         for(int i =0; i < 3; i++)
         {
             GameObject bullet = Instantiate(_bullet, transform.position, transform.rotation);
             Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
             Vector2 dir = transform.rotation * Vector2.up;
-            Vector2 pdir = Vector2.Perpendicular(dir)*Random.Range(-spread,spread );    
+            Vector2 pdir = Vector2.Perpendicular(dir)*a;    
             rigidbody.velocity = (dir+pdir)*speed;
+            a= a+spread;
+            
         }
         
     }
